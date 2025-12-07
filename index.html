@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>setTimeout.js Browser Test</title>
+  <style>body{font-family:Segoe UI,Roboto,Arial;margin:20px}#log p{margin:6px 0;padding:8px;background:#f3f3f3;border-radius:4px}</style>
+</head>
+<body>
+  <h1>setTimeout.js Browser Test</h1>
+  <p>This page loads <code>setTimeout.js</code> and provides a button to schedule a delayed log.</p>
+  <button id="runBtn">Run setTimeout (1s)</button>
+  <button id="runIndexBtn">Run index.js demo</button>
+  <div id="log"></div>
+
+  <!-- Load the user's script (must be in the same folder) -->
+  <script src="./setTimeout.js"></script>
+  <script src="./index.js"></script>
+
+  <script>
+    const logDiv = document.getElementById('log');
+    function append(msg){
+      const p = document.createElement('p');
+      p.textContent = msg;
+      logDiv.appendChild(p);
+    }
+
+    // Show a message if delayedLog exists in the loaded script
+    if (typeof delayedLog === 'function') append('`delayedLog` is available from setTimeout.js');
+    else append('`delayedLog` is not defined in setTimeout.js');
+
+    // Show a message if index.js exports sayHello (it defines sayHello)
+    if (typeof sayHello === 'function') append('`sayHello` is available from index.js');
+    else append('`sayHello` is not defined in index.js');
+
+    document.getElementById('runBtn').addEventListener('click', () => {
+      append('Button clicked — scheduling delayedLog in 1 second');
+      setTimeout(() => {
+        append('Inline wrapper: delayedLog executed (after 1s)');
+        if (typeof delayedLog === 'function') delayedLog();
+      }, 1000);
+    });
+
+    document.getElementById('runIndexBtn').addEventListener('click', () => {
+      append('Calling `sayHello("Browser")` from index.js');
+      try {
+        const out = typeof sayHello === 'function' ? sayHello('Browser') : 'sayHello not available';
+        append(out);
+      } catch (err) {
+        append('Error calling sayHello: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

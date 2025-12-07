@@ -70,3 +70,32 @@ npm list
 ## License
 
 MIT
+
+## Browser Testing
+
+You can run the examples in a browser by serving this folder over HTTP and opening `index.html`.
+
+- Start a simple local server (PowerShell):
+
+```powershell
+# With Python (recommended if available)
+python -m http.server 8000
+
+# Or with Node (if you have `http-server` installed via npm)
+npx http-server -p 8000
+```
+
+- Open the page in your default browser (PowerShell):
+
+```powershell
+Start-Process "http://localhost:8000/index.html"
+```
+
+- Alternatively, use the VS Code "Live Server" extension and click "Go Live".
+
+What to test
+
+- Open Developer Tools (F12) and watch the Console for the log lines produced by `setTimeout.js`.
+- On the page, click the "Run setTimeout (1s)" button to schedule a delayed log; the page also appends visible messages to the DOM.
+
+If `setTimeout.js` contains only `console.log` calls and standard browser APIs, it will run unchanged in the browser.
